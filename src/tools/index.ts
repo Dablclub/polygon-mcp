@@ -4,6 +4,7 @@ import {
   erc20BalanceHandler,
   erc20TransferHandler,
   getGasPriceHandler,
+  getAddressHandler,
 } from "./handlers.js";
 
 const callContractTool: Tool = {
@@ -83,11 +84,21 @@ const getGasPriceTool: Tool = {
   },
 };
 
+const getAddressTool: Tool = {
+  name: "get_address",
+  description: "Get the address of the current account",
+  inputSchema: {
+    type: "object",
+    properties: {},
+  },
+};
+
 export const polygonMcpTools: Tool[] = [
   callContractTool,
   erc20BalanceTool,
   erc20TransferTool,
   getGasPriceTool,
+  getAddressTool,
 ];
 
 // biome-ignore lint/complexity/noBannedTypes: temp
@@ -96,4 +107,5 @@ export const toolToHandler: Record<string, Function> = {
   erc20_balance: erc20BalanceHandler,
   erc20_transfer: erc20TransferHandler,
   get_gas_price: getGasPriceHandler,
+  get_address: getAddressHandler,
 };

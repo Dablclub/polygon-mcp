@@ -28,3 +28,5 @@ export const Erc20TransferSchema = z.object({
 });
 
 export const GetGasPriceSchema = z.object({});
+
+export const GetAddressSchema = z.object({});
