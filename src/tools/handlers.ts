@@ -19,9 +19,18 @@ import type {
 import { constructPolygonScanUrl } from "../utils/index.js";
 import { polygon } from "viem/chains";
 
+export async function getAddressHandler(
+  wallet: WalletClient & PublicActions
+): Promise<string> {
+  if (!wallet.account?.address) {
+    throw new Error("No account address available");
+  }
+  return wallet.account.address;
+}
+
 export async function callContractHandler(
   wallet: WalletClient & PublicActions,
-  args: z.infer<typeof CallContractSchema>,
+  args: z.infer<typeof CallContractSchema>
 ): Promise<string> {
   let abi: string | Abi = args.abi;
   try {
@@ -37,7 +46,7 @@ export async function callContractHandler(
 
   try {
     functionAbi = abi.find(
-      (item) => "name" in item && item.name === args.functionName,
+      (item) => "name" in item && item.name === args.functionName
     ) as AbiFunction;
   } catch (error) {
     throw new Error(`Invalid function name: ${args.functionName}`);
@@ -76,7 +85,7 @@ export async function callContractHandler(
 
 export async function erc20BalanceHandler(
   wallet: WalletClient & PublicActions,
-  args: z.infer<typeof Erc20BalanceSchema>,
+  args: z.infer<typeof Erc20BalanceSchema>
 ): Promise<string> {
   const { contractAddress } = args;
 
@@ -102,7 +111,7 @@ export async function erc20BalanceHandler(
 
 export async function erc20TransferHandler(
   wallet: WalletClient & PublicActions,
-  args: z.infer<typeof Erc20TransferSchema>,
+  args: z.infer<typeof Erc20TransferSchema>
 ): Promise<string> {
   const { contractAddress, toAddress, amount } = args;
 
@@ -142,7 +151,7 @@ export async function erc20TransferHandler(
 }
 
 export async function getGasPriceHandler(
-  wallet: WalletClient & PublicActions,
+  wallet: WalletClient & PublicActions
 ): Promise<string> {
   const gasPrice = await wallet.getGasPrice();
   return formatUnits(gasPrice, 9) + " Gwei";
