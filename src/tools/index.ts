@@ -6,6 +6,8 @@ import {
   getGasPriceHandler,
   getAddressHandler,
   deployPropertyNFTHandler,
+  deployPropertyTokenHandler,
+  deployPropertyYieldVaultHandler,
 } from "./handlers.js";
 
 const callContractTool: Tool = {
@@ -103,6 +105,70 @@ const deployPropertyNFTTool: Tool = {
   },
 };
 
+const deployPropertyTokenTool: Tool = {
+  name: "deploy_property_token",
+  description: "Deploy a PropertyToken contract on Polygon PoS",
+  inputSchema: {
+    type: "object",
+    properties: {
+      propertyNFTAddress: {
+        type: "string",
+        description: "The address of the PropertyNFT",
+      },
+      propertyId: {
+        type: "string",
+        description: "The ID of the property",
+      },
+      name: {
+        type: "string",
+        description: "The name of the property",
+      },
+      symbol: {
+        type: "string",
+        description: "The symbol of the property",
+      },
+    },
+    required: ["propertyNFTAddress", "propertyId", "name", "symbol"],
+  },
+};
+
+const deployPropertyYieldVaultTool: Tool = {
+  name: "deploy_property_yield_vault",
+  description: "Deploy a PropertyYieldVault contract on Polygon PoS",
+  inputSchema: {
+    type: "object",
+    properties: {
+      assetAddress: {
+        type: "string",
+        description: "The address of the underlying ERC20 PropertyToken",
+      },
+      name: {
+        type: "string",
+        description: "The name of the vault token",
+      },
+      symbol: {
+        type: "string",
+        description: "The symbol of the vault token",
+      },
+      propertyNFTAddress: {
+        type: "string",
+        description: "The address of the PropertyNFT",
+      },
+      propertyId: {
+        type: "string",
+        description: "The ID of the property",
+      },
+    },
+    required: [
+      "assetAddress",
+      "name",
+      "symbol",
+      "propertyNFTAddress",
+      "propertyId",
+    ],
+  },
+};
+
 export const polygonMcpTools: Tool[] = [
   callContractTool,
   erc20BalanceTool,
@@ -110,6 +176,8 @@ export const polygonMcpTools: Tool[] = [
   getGasPriceTool,
   getAddressTool,
   deployPropertyNFTTool,
+  deployPropertyTokenTool,
+  deployPropertyYieldVaultTool,
 ];
 
 // biome-ignore lint/complexity/noBannedTypes: temp
@@ -120,4 +188,6 @@ export const toolToHandler: Record<string, Function> = {
   get_gas_price: getGasPriceHandler,
   get_address: getAddressHandler,
   deploy_property_nft: deployPropertyNFTHandler,
+  deploy_property_token: deployPropertyTokenHandler,
+  deploy_property_yield_vault: deployPropertyYieldVaultHandler,
 };
