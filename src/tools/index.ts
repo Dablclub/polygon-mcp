@@ -5,6 +5,7 @@ import {
   erc20TransferHandler,
   getGasPriceHandler,
   getAddressHandler,
+  deployPropertyNFTHandler,
 } from "./handlers.js";
 
 const callContractTool: Tool = {
@@ -93,12 +94,22 @@ const getAddressTool: Tool = {
   },
 };
 
+const deployPropertyNFTTool: Tool = {
+  name: "deploy_property_nft",
+  description: "Deploy a PropertyNFT contract on Polygon PoS",
+  inputSchema: {
+    type: "object",
+    properties: {},
+  },
+};
+
 export const polygonMcpTools: Tool[] = [
   callContractTool,
   erc20BalanceTool,
   erc20TransferTool,
   getGasPriceTool,
   getAddressTool,
+  deployPropertyNFTTool,
 ];
 
 // biome-ignore lint/complexity/noBannedTypes: temp
@@ -108,4 +119,5 @@ export const toolToHandler: Record<string, Function> = {
   erc20_transfer: erc20TransferHandler,
   get_gas_price: getGasPriceHandler,
   get_address: getAddressHandler,
+  deploy_property_nft: deployPropertyNFTHandler,
 };
