@@ -13,11 +13,34 @@ import {
 import type { z } from "zod";
 import type {
   CallContractSchema,
+  DeployPropertyNFTSchema,
   Erc20BalanceSchema,
   Erc20TransferSchema,
 } from "./schemas.js";
 import { constructPolygonScanUrl } from "../utils/index.js";
 import { polygon } from "viem/chains";
+import { PropertyNFT } from "../contracts/PropertyNFT.js";
+
+export async function deployPropertyNFTHandler(
+  wallet: WalletClient & PublicActions,
+  args: z.infer<typeof DeployPropertyNFTSchema>
+): Promise<string> {
+  if (!wallet.account?.address) {
+    throw new Error("No account address available");
+  }
+  const hash = await wallet.deployContract({
+    abi: PropertyNFT.abi,
+    account: wallet.account,
+    chain: wallet.chain,
+    bytecode: PropertyNFT.bytecode as `0x${string}`,
+  });
+
+  // Return transaction hash and PolygonScan URL
+  return JSON.stringify({
+    hash,
+    url: constructPolygonScanUrl(wallet.chain ?? polygon, hash),
+  });
+}
 
 export async function getAddressHandler(
   wallet: WalletClient & PublicActions
